@@ -1,0 +1,10 @@
+FROM node:alpine
+WORKDIR '/app'
+COPY package.json .
+RUN npm install
+
+# not needed cos we point to local copy.
+# will leave cause could or reminder that we need it for prod.
+COPY . .
+
+CMD [ "npm", "run", "start" ]
