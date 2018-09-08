@@ -1,0 +1,17 @@
+# Need sudo to run docker
+sudo : required
+
+# Required services needed
+services :
+  - docker
+
+# Build Tag can be anything inside travis `-t avagenas/docker-react`
+before_install :
+  - docker build -t avagenas/docker-react -f Dockerfile.dev .
+
+# Script are commands that need to be run
+script :
+  # npm run test hangs...do this
+  # -- --coverage
+  # test returns status code
+  - docker run avagenas/docker-react npm run test -- --coverage
