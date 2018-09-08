@@ -15,3 +15,29 @@ script :
   # -- --coverage
   # test returns status code
   - docker run avagenas/docker-react npm run test -- --coverage
+
+# How to deploy to AWS Elastic Beanstalk
+deploy :
+  # Check travis-ci which providers is supports
+  provider : elasticbeanstalk
+  # Specify where you created your Elastic Beanstalk instance. Check URL for region.
+  region : "us-east-1"
+  # Check Elastic Beanstalk dashboard for exact name of app
+  app : "docker-app"
+  # Check Elastic Beanstalk dashboard for exact env name
+  env : "DockerApp-env"
+  # When travis deploys it will zip, and copy to an S3 bucket(Hard drive on aws)
+  # Travis will poke EB to say hey I deployed.
+  # Check Services > S3 > Bucket names (that match what your looking for, check region.. etc) > 
+  # Click that will show bucket name as heading
+  bucket_name : "elasticbeanstalk-us-east-1-951702253402"
+  # Same as app name
+  bucket_path : "docker-app"
+  # Only deply when master gets new code
+  on :
+      branch : master
+  # Create a new user in AWS IAM, that would be the TRAVIS CI user      
+  # Save these keys in Travis CI
+  access_key_id : $AWS_ACCESS_KEY
+  secret_access_key :
+    secure : "$AWS_SECRET_KEY"
